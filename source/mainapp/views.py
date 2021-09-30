@@ -56,6 +56,8 @@ def home(request):
             context['status'] = 1
             return render(request, 'base.html', context)
         return render(request, 'base .html', {'status': 0})
+        print("1991919191919199199191919199999999999999999999999999999999999919191111111111111111111111111111111111111119199191")
+        print( status)
 
 def getTokens(code):
     TOKEN_ENDPOINT = config('TOKEN_ENDPOINT')
@@ -346,3 +348,4 @@ class RegistrationView(CartMixin, View):
             'cart': self.cart
         }
         return render(request, 'registration.html', context)
+
