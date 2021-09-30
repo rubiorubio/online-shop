@@ -44,7 +44,7 @@
           {% else %}
               <li class="nav-item">
                   <span class="navbar-text text-light">Hallo, {% if request.user.is_authenticated %}
-                  {% if request.user.is_authenticated %}
+                  {% if status == 1 %}
                   <span class="badge badge-danger"><a href="#" style="text-decoration: none; font-size: 14px;">{{ request.user.username }}</a></span>{% else %} gast!{% endif %}<a href="{% url 'logout' %}">| Exit</a></span>
               </li>
           {% endif %}
