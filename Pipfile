@@ -20,9 +20,14 @@ pytz = "*"
 setuptools = "*"
 six = "*"
 sqlparse = "*"
+python-decouple = "*"
+requests = "*"
+jose = "*"
+python-jose = "*"
 
 [dev-packages]
 black = "==21.5b2"
+ipykernel = "*"
 
 [requires]
 python_version = "3.9"

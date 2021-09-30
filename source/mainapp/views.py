@@ -8,8 +8,9 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, response
 from django.views.generic import DetailView, View
+from requests.api import head
 
 from .models import Category, Customer, Cart, CartProduct, Product
 from .mixins import CartMixin
@@ -18,6 +19,90 @@ from .utils import recalc_cart
 
 from specs.models import ProductFeatures
 
+####################################################
+
+# REDIRECT_URI = 'https://shop-rubio.herokuapp.com'
+# TOKEN_ENDPOINT = 'https://rubio-shop.auth.eu-central-1.amazoncognito.com/oauth2/token'
+
+# CLIENT_ID = '17s5ejtg2ncu1epu2f4ieuset9'
+# CLIENT_SECRET = '1fgcgghtp8v2i3fu8pr5bqrh8thllh0t0fkd7vs2h3vuh7k70in2'
+# USER_POOL_ID = 'eu-central-1_LuINKN9U6'
+# COGNITO_REGION_NAME = 'eu-central-1'
+
+###############
+from django.shortcuts import render
+from decouple import config
+import base64
+import requests
+from mainapp import decode_jwt
+from source import os
+
+def home(request):
+    context = {}
+    try:
+        code = request.GET.get('code')
+        userData = getTokens(code)
+        context['name'] = userData['name']
+        context['status'] = 1
+
+        response = render(request, 'base.html', context)
+        response.set_cookie('sessiontoken', userData['id_token'], max_age=60*60*24, httponly=True)
+        return response
+    except:
+        token = getSession(request)
+        if token is not None:
+            userData = decode_jwt.lambda_handler(token,None)
+            context['name'] = userData['name']
+            context['status'] = 1
+            return render(request, 'base.html', context)
+        return render(request, 'base .html', {'status': 0})
+
+def getTokens(code):
+    TOKEN_ENDPOINT = config('TOKEN_ENDPOINT')
+    REDIRECT_URI = config('REDIRECT_URI')
+    CLIENT_ID = config('CLIENT_ID')
+    CLIENT_SECRET = config('CLIENT_SECRT')
+
+    encodeData = base64.b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}","ISO-8859-1")).decode("ascii")
+
+    headers = {
+        'Content-Type': 'application/x-www-from-urlencoded',
+        'Authorization': f'Basic{encodeData}'
+    }
+
+    body = {
+        'grant_type': 'authorization_code',
+        'client_id': CLIENT_ID,
+        'code': code,
+        'redirect_uri': REDIRECT_URI,
+    }
+
+    response = requests.post(TOKEN_ENDPOINT, data=body,headers=headers )
+    
+    id_token = response.json()['id_token']
+
+    userData = decode_jwt.lambda_handler(id_token, None)
+
+    if not userData:
+        return False
+    
+    user = {
+        'id_token': id_token,
+        # 'name': userData['name'],
+        'emai': userData['email'],
+    }
+    return user
+    
+    def getSession(request):
+        try:
+            response = request.COOKIES["sessiontoken"]
+            return response
+        except:
+            return None
+
+
+
+#########################################################################
 
 class MyQ(Q):
 
