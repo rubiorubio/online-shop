@@ -34,7 +34,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav">
-            {% if not request.user.is_authenticated and status == 0 %}
+            {% if not request.user.is_authenticated and status == 1 %}
           <li>
             <a class="nav-link text-white" href="{% url 'login' %}">Authorization</a>
           </li>
