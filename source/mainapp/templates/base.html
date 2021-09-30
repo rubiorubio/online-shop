@@ -34,7 +34,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav">
-            {% if not request.user.is_authenticated and status == 1 %}
+            {% if not request.user.is_authenticated and status == 0 %}
           <li>
             <a class="nav-link text-white" href="{% url 'login' %}">Authorization</a>
           </li>
@@ -43,7 +43,7 @@
           </li>
           {% else %}
               <li class="nav-item">
-                  <span class="navbar-text text-light">Hallo, {% if request.user.is_authenticated %}<span class="badge badge-danger"><a href="#" style="text-decoration: none; font-size: 14px;">{{ request.user.username }}</a></span>{% else %} gast!{% endif %}<a href="{% url 'logout' %}">| Exit</a></span>
+                  <span class="navbar-text text-light">Hallo, {% if request.user.is_authenticated and status == 1 %}<span class="badge badge-danger"><a href="#" style="text-decoration: none; font-size: 14px;">{{ request.user.username }}</a></span>{% else %} gast!{% endif %}<a href="{% url 'logout' %}">| Exit</a></span>
               </li>
           {% endif %}
           </ul>
