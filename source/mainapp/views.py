@@ -35,7 +35,7 @@ from decouple import config
 import base64
 import requests
 from mainapp import decode_jwt
-from source import os
+import os
 
 def home(request):
     context = {}
