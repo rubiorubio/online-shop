@@ -32,7 +32,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
+      <div class="collapse navbar-collapse" id="navbarResponsive"  href="{% url 'login' %}">
           <ul class="navbar-nav">
             {% if not request.user.is_authenticated %}
           <li>
@@ -43,7 +43,7 @@
           </li>
           {% else %}
               <li class="nav-item">
-                  <span class="navbar-text text-light">Hallo, {% if request.user.is_authenticated %}<span class="badge badge-danger"><a href="#" style="text-decoration: none; font-size: 14px;">{{ request.user.username }}</a></span>{% else %} gast!{% endif %}<a href="{% url 'logout' %}">| Exit</a></span>
+                  <span class="navbar-text text-light">Hallo, {% if request.user.is_authenticated %} {% if status == 1 %}<span class="badge badge-danger"><a href="#" style="text-decoration: none; font-size: 14px;">{{ request.user.username }}</a></span>{% else %} gast!{% endif %}<a href="{% url 'logout' %}">| Exit</a></span>
               </li>
           {% endif %}
           </ul>
