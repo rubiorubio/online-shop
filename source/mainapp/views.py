@@ -21,15 +21,6 @@ from specs.models import ProductFeatures
 
 ####################################################
 
-# REDIRECT_URI = 'https://shop-rubio.herokuapp.com'
-# TOKEN_ENDPOINT = 'https://rubio-shop.auth.eu-central-1.amazoncognito.com/oauth2/token'
-
-# CLIENT_ID = '17s5ejtg2ncu1epu2f4ieuset9'
-# CLIENT_SECRET = '1fgcgghtp8v2i3fu8pr5bqrh8thllh0t0fkd7vs2h3vuh7k70in2'
-# USER_POOL_ID = 'eu-central-1_LuINKN9U6'
-# COGNITO_REGION_NAME = 'eu-central-1'
-
-###############
 from django.shortcuts import render
 from decouple import config
 import base64
@@ -88,7 +79,7 @@ def getTokens(code):
     
     user = {
         'id_token': id_token,
-        # 'name': userData['name'],
+        'name': userData['name'],
         'emai': userData['email'],
     }
     return user
