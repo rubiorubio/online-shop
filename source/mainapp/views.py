@@ -79,7 +79,7 @@ def getTokens(code):
     
     user = {
         'id_token': id_token,
-        'name': userData['name'],
+        # 'name': userData['name'],
         'emai': userData['email'],
     }
     return user
